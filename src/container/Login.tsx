@@ -1,5 +1,6 @@
 import { getStorage, setStorage, STORAGE_KEYS } from "@src/lib";
 import { request } from "@src/lib/request";
+import { useAuthStore } from "@src/lib/store";
 import { Auth } from "@src/lib/types";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
@@ -28,12 +29,10 @@ const Login: React.FC = () => {
   };
 
   const { mutate, isLoading } = useMutation<Auth>(submit, {
-    async onSuccess(data) {
-      await setStorage(STORAGE_KEYS.ACCESS_TOKEN, data.access_token);
-      await setStorage(STORAGE_KEYS.USER, data.user);
+    onSuccess(data) {
+      // setStorage(STORAGE_KEYS.AUTH_USER, data);
+      useAuthStore.setState(data);
       toast.success("Đăng nhập thành công!");
-      const value = await getStorage(STORAGE_KEYS.USER);
-      console.log(value);
     },
     onError() {
       toast.error("Đăng nhập thất bại!");
