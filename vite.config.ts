@@ -13,6 +13,7 @@ const publicDir = resolve(__dirname, "public");
 export default defineConfig({
   resolve: {
     alias: {
+      "@": root,
       "@src": root,
       "@assets": assetsDir,
       "@pages": pagesDir,

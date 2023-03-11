@@ -13,7 +13,7 @@ export default function Popup(): JSX.Element {
   const isAuthenticated = !!user;
 
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 text-center h-full bg-gray-800">
+    <div className="absolute top-0 left-0 right-0 bottom-0 text-center h-full bg-slate-900">
       {isAuthenticated ? <Dashboard /> : <Login />}
     </div>
   );

@@ -1,4 +1,3 @@
-import { getStorage, setStorage, STORAGE_KEYS } from "@src/lib";
 import { request } from "@src/lib/request";
 import { useAuthStore } from "@src/lib/store";
 import { Auth } from "@src/lib/types";
@@ -76,7 +75,7 @@ const Login: React.FC = () => {
       </div>
 
       {isLoading && (
-        <progress className="progress w-full rounded-none absolute bottom-0 right-0" />
+        <progress className="progress w-full rounded-none absolute bottom-0 right-0 progress-primary" />
       )}
     </div>
   );
