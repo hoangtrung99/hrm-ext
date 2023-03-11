@@ -1,5 +1,5 @@
-import { Dashboard, Login } from "@src/container";
 import { useAuthStore } from "@src/lib/store";
+import { Dashboard, Login } from "@src/views";
 
 export default function Popup(): JSX.Element {
   // check auth from storage
