@@ -1,4 +1,5 @@
 import { PropsWithChildren } from "react";
+import { Footer } from "./Footer";
 
 type ContainerProps = PropsWithChildren<{
   isLoading?: boolean;
@@ -13,6 +14,8 @@ const Container: React.FC<ContainerProps> = ({ isLoading, children }) => {
           <progress className="progress w-full rounded-none absolute bottom-0 right-0" />
         )}
       </div>
+
+      <Footer />
     </div>
   );
 };

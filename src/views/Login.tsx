@@ -1,3 +1,4 @@
+import { Footer } from "@/components/Footer";
 import { request } from "@src/lib/request";
 import { useAuthStore } from "@src/lib/store";
 import { Auth } from "@src/lib/types";
@@ -41,7 +42,7 @@ const Login: React.FC = () => {
   return (
     <div className="w-full h-full relative">
       <div className="prose lg:prose-xl pt-10 px-3 flex flex-col">
-        <h1>HRM</h1>
+        <h1 className="prose-headings:h1">HRM</h1>
 
         <label htmlFor="email" className="label label-text py-1">
           Email
@@ -73,6 +74,8 @@ const Login: React.FC = () => {
 
         <h4>Make HRM great again!</h4>
       </div>
+
+      <Footer />
 
       {isLoading && (
         <progress className="progress w-full rounded-none absolute bottom-0 right-0 progress-primary" />

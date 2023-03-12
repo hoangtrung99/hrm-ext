@@ -32,13 +32,13 @@ const Dashboard: React.FC = () => {
       >
         <TabsList aria-label="Manage your account">
           <TabsTrigger value={Tab.Timekeeping}>
-            <CalendarDays size={24} />
+            <CalendarDays size={22} />
           </TabsTrigger>
           <TabsTrigger value={Tab.AdminTools}>
-            <ListChecks size={24} />
+            <ListChecks size={22} />
           </TabsTrigger>
           <TabsTrigger value={Tab.Settings}>
-            <SettingIcon size={24} />
+            <SettingIcon size={22} />
           </TabsTrigger>
         </TabsList>
 

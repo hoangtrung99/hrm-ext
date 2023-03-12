@@ -5,10 +5,11 @@ import { Auth } from "./types";
 const baseURL = "https://api-hrm.solashi.com/api/1.0";
 
 async function authRequestInterceptor(config: InternalAxiosRequestConfig) {
-  const authUser = await getStorage<Auth>(STORAGE_KEYS.AUTH_USER);
+  const authUserJSON = await getStorage<string>(STORAGE_KEYS.AUTH_USER);
 
-  if (authUser) {
-    const token = authUser.access_token;
+  if (authUserJSON) {
+    const authUser = JSON.parse(authUserJSON) as { state: Auth };
+    const token = authUser.state.access_token;
     (config.headers as AxiosHeaders).set("Authorization", `Bearer ${token}`);
   }
 

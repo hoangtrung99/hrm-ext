@@ -1,7 +1,10 @@
-import logger from "./logger";
 import { createJSONStorage, StateStorage } from "zustand/middleware";
+import logger from "./logger";
 
-export const STORAGE_KEYS = { AUTH_USER: "auth-user" };
+export const STORAGE_KEYS = {
+  AUTH_USER: "auth-user",
+  TIMEKEEPING: "timekeeping",
+};
 
 export const getStorage = async <T = string>(
   key: string
