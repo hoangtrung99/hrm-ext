@@ -107,7 +107,8 @@ function TimekeepingState() {
         </span>
         <span className="prose-base font-medium mt-1">Giờ ra:</span>
         <span className="prose-lg font-bold text-secondary">
-          {format(UTCtoGTM7(new Date(state.last as string)), "HH:mm:ss")}
+          {state.last &&
+            format(UTCtoGTM7(new Date(state.last as string)), "HH:mm:ss")}
         </span>
       </div>
     </div>
