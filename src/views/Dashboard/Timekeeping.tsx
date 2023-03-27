@@ -34,13 +34,12 @@ const Timekeeping: React.FC = () => {
       <div className="form-control flex flex-row justify-start items-center">
         <label className="label justify-start items-center cursor-pointer">
           <input
-            disabled
             type="checkbox"
             checked={isAuto}
             onChange={(e) => update(e.target.checked)}
             className="checkbox checkbox-primary mr-2"
           />
-          <span className="prose-base">Tự động chấm công (coming soon)</span>
+          <span className="prose-base">Tự động chấm công</span>
         </label>
 
         <Tooltip.Provider delayDuration={0}>

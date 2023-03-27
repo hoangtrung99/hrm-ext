@@ -30,14 +30,14 @@ const manifest: Manifest.WebExtensionManifest = {
       css: ["contentStyle.css"],
     },
   ],
-  // devtools_page: "src/pages/devtools/index.html",
   web_accessible_resources: [
     {
       resources: ["contentStyle.css", "icon-128.png", "icon-32.png"],
       matches: [],
     },
   ],
-  permissions: ["storage"],
+  permissions: ["storage", "alarms", "tabs"],
+  host_permissions: ["https://api-hrm.solashi.com/"],
 };
 
 export default manifest;
