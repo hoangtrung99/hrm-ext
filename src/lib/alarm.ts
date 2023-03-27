@@ -1,6 +1,7 @@
-import { timekeeping } from "./api";
 import logger from "./logger";
+import { createFetchRequest } from "./request";
 import { getStorage, STORAGE_KEYS } from "./storage";
+import { useAuthStore, useTimekeepingStore } from "./store";
 
 // Tạo tác vụ lập lịch chạy vào 8h58 giờ sáng hàng ngày
 chrome.alarms.create("morningAlarm", {
@@ -10,7 +11,7 @@ chrome.alarms.create("morningAlarm", {
 
 // Tạo tác vụ lập lịch chạy vào 6 giờ chiều hàng ngày
 chrome.alarms.create("eveningAlarm", {
-  when: getTimestamp(19, 4),
+  when: getTimestamp(18, 0),
   periodInMinutes: 1440, // 24 hours
 });
 
@@ -34,50 +35,70 @@ function getTimestamp(hour: number, minute: number) {
 
 let retryTimekeeping = 0;
 
-const safeTimekeeping = async () => {
-  const isAuto = await getStorage(STORAGE_KEYS.TIMEKEEPING);
-  if (!isAuto) {
-    logger("isn't auto timekeeping");
-    return;
+export const timeKeeping = async (needCheckAuto = true) => {
+  const isAuto = Boolean(await getStorage(STORAGE_KEYS.TIMEKEEPING));
+
+  if (needCheckAuto) {
+    if (!isAuto) {
+      logger("isn't auto timekeeping");
+      return;
+    }
   }
 
-  try {
-    await timekeeping();
-    // await fetch("/user/timekeeping", {
+  safeTimekeeping();
+};
 
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Authorization": "Bearer " + token
-    //   }
-    // })
-    //   .then(response => {
-    //     // Check if the request was successful
-    //     if (!response.ok) {
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     return response.json(); // Parse the response as JSON
-    //   })
+// Xử lý sự kiện khi tác vụ lập lịch được kích hoạt
+chrome.alarms.onAlarm.addListener(async function (alarm) {
+  if (alarm.name === "morningAlarm") {
+    // Thực hiện các hoạt động vào 8 giờ sáng
+    logger("morningAlarm");
+    const today = await timekeepingToday();
+    const first = today?.first;
+
+    if (!first) {
+      timeKeeping();
+    }
+  } else if (alarm.name === "eveningAlarm") {
+    // Thực hiện các hoạt động vào 18 giờ chiều
+    logger("eveningAlarm");
+    timeKeeping();
+  }
+});
+
+export const timekeepingToday = async () => {
+  try {
+    const res = await createFetchRequest("/user/timekeeping/today", "GET");
+    const data = await res.json();
+
+    const storeFirst = useTimekeepingStore.getState().first;
+    const storeLast = useTimekeepingStore.getState().last;
+    if (data.first !== storeFirst || data.last !== storeLast) {
+      useTimekeepingStore.setState({ ...data });
+    }
+
+    return data;
   } catch (error) {
-    console.log(error);
-    if (retryTimekeeping < 3) {
-      retryTimekeeping++;
-      safeTimekeeping();
-    } else {
-      retryTimekeeping = 0;
+    logger("Get timekeeping today failed");
+    if ((error as Response).status === 401) {
+      alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại");
+      useAuthStore.getState().clearAuth();
     }
   }
 };
 
-// Xử lý sự kiện khi tác vụ lập lịch được kích hoạt
-chrome.alarms.onAlarm.addListener(function (alarm) {
-  if (alarm.name === "morningAlarm") {
-    // Thực hiện các hoạt động vào 8 giờ sáng
-    logger("morningAlarm");
-    safeTimekeeping();
-  } else if (alarm.name === "eveningAlarm") {
-    // Thực hiện các hoạt động vào 18 giờ chiều
-    logger("eveningAlarm");
-    safeTimekeeping();
+const safeTimekeeping = async () => {
+  try {
+    await createFetchRequest("/user/timekeeping", "POST");
+    await timekeepingToday();
+  } catch (error) {
+    if (retryTimekeeping < 3) {
+      retryTimekeeping++;
+      logger("Timekeeping failed, retrying...");
+      safeTimekeeping();
+    } else {
+      retryTimekeeping = 0;
+      logger("Timekeeping failed, retrying failed");
+    }
   }
-});
+};

@@ -39,7 +39,7 @@ const Timekeeping: React.FC = () => {
             onChange={(e) => update(e.target.checked)}
             className="checkbox checkbox-primary mr-2"
           />
-          <span className="prose-base">Tự động chấm công</span>
+          <span className="prose-base">Tự động chấm công (beta)</span>
         </label>
 
         <Tooltip.Provider delayDuration={0}>

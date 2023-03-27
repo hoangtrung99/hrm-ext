@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Footer";
-import { request } from "@src/lib/request";
+import { addDaysFromSeconds } from "@/lib/utils";
+import { axios } from "@src/lib/request";
 import { useAuthStore } from "@src/lib/store";
 import { Auth } from "@src/lib/types";
 import { useMutation } from "@tanstack/react-query";
@@ -20,7 +21,7 @@ const Login: React.FC = () => {
   };
 
   const submit = async () => {
-    const response = await request.post("/user/login", {
+    const response = await axios.post("/user/login", {
       email,
       password,
     });
@@ -31,7 +32,8 @@ const Login: React.FC = () => {
   const { mutate, isLoading } = useMutation<Auth>(submit, {
     onSuccess(data) {
       // setStorage(STORAGE_KEYS.AUTH_USER, data);
-      useAuthStore.setState(data);
+      const expires_at = addDaysFromSeconds(new Date(), data.expires_in);
+      useAuthStore.setState({ ...data, expires_at });
       toast.success("Đăng nhập thành công!");
     },
     onError() {

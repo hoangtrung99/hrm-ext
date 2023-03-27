@@ -1,4 +1,4 @@
-import { request } from "@/lib/request";
+import { axios } from "@/lib/request";
 import { useAuthStore, useTimekeepingStore } from "@/lib/store";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,7 +11,7 @@ export const useTimekeepingToday = () => {
   useQuery<TimeKeepingResult>(
     ["timekeeping-today"],
     async () => {
-      const res = await request.get<TimeKeepingResult>(
+      const res = await axios.get<TimeKeepingResult>(
         "/user/timekeeping/today"
       );
       return res.data;

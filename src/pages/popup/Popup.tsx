@@ -6,6 +6,7 @@ export default function Popup(): JSX.Element {
   // check auth from storage
   // TODO and call api validate auth
   // useValidateAuth()
+  // useValidateToken()
 
   // const { data: user, isLoading } = useQuery(["storage/user"], () =>
   //   getStorage("auth-user")

@@ -1,3 +1,3 @@
-import { request } from "../request";
+import { axios } from "../request";
 
-export const timekeeping = () => request.post("/user/timekeeping");
+export const timekeeping = () => axios.post("/user/timekeeping");

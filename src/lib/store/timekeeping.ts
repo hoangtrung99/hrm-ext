@@ -12,7 +12,7 @@ type TimekeepingValue = {
 export const useTimekeepingStore = create<TimekeepingValue>()(
   persist(
     (set) => ({
-      isAutoTimekeeping: false,
+      isAutoTimekeeping: true,
       first: null,
       last: null,
       updateIsAutoTimekeeping: (isAutoTimekeeping: boolean) =>

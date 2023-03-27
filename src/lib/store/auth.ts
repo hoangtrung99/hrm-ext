@@ -16,6 +16,7 @@ export const useAuthStore = create<AuthStore>()(
             user: undefined,
             access_token: undefined,
             refresh_token: undefined,
+            expires_at: undefined,
             expires_in: undefined,
             token_type: undefined,
           });
