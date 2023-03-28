@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import debounce from "lodash.debounce";
 import { Info } from "lucide-react";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
 const Timekeeping: React.FC = () => {
@@ -87,6 +87,27 @@ export { Timekeeping };
 
 function TimekeepingState() {
   const state = useTimekeepingStore();
+
+  useEffect(() => {
+    // handler event from service worker
+    const handleMessage = (message: {
+      payload: { first: string; last: string };
+      type: string;
+    }) => {
+      if (message.type === "UPDATE_TIMEKEEPING") {
+        const { first, last } = message.payload;
+        useTimekeepingStore.setState({ first, last });
+      }
+    };
+
+    // register listener
+    chrome.runtime.onMessage.addListener(handleMessage);
+
+    // remove listener when component unmount
+    return () => {
+      chrome.runtime.onMessage.removeListener(handleMessage);
+    };
+  }, []);
 
   if (!state.first) {
     return (

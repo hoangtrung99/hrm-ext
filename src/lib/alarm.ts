@@ -74,7 +74,11 @@ export const timekeepingToday = async () => {
     const storeFirst = useTimekeepingStore.getState().first;
     const storeLast = useTimekeepingStore.getState().last;
     if (data.first !== storeFirst || data.last !== storeLast) {
-      useTimekeepingStore.setState({ ...data });
+      // emit event from service worker
+      chrome.runtime.sendMessage({
+        type: "UPDATE_TIMEKEEPING",
+        payload: { first: data.first, last: data.last },
+      });
     }
 
     return data;
