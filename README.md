@@ -5,7 +5,7 @@
 - [x] Hoạt động ổn định
 - [x] Thân viện với developer
 
-## :muscle: Đang tìm kiếm anh em trợ giúp code các chức năng.
+## :muscle: Ai code tiếp hộ phát.
 
 ## Dự kiến sẽ có cách chức năng
 
@@ -13,7 +13,7 @@
 
 - [x] Chấm công.
 - [x] Xem thông tin chấm công hôm nay.
-- [ ] Tự động chấm công (Mặc định lập lịch tự động chấm công lức 8h58 sáng và 18h chiều).
+- [x] Tự động chấm công (Mặc định lập lịch tự động chấm công lức 8h58 sáng và 18h chiều).
 - [ ] Lập lịch tự động chấm công thay vì mặc định lúc 8h58 và 18h.
 - [ ] Thông báo nhắc nhở chấm công.
 
@@ -28,9 +28,9 @@
 1. Tải xuống từ Github `https://github.com/hoangtrung99/hrm-ext`
 2. Giải nén
 3. Import vào Chrome
-3.1. Mở chrome extension `chrome://extensions/`
-3.2. Mở chế độ developer mode.
-3.3. Load unpacked -> chọn tới folder vừa giải nén.  
+  - 3.1. Mở chrome extension `chrome://extensions/`
+  - 3.2. Mở chế độ developer mode.
+  - 3.3. Load unpacked -> chọn tới folder vừa giải nén.  
 
 ## Screenshots
 
