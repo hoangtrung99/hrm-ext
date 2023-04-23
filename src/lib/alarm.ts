@@ -85,7 +85,6 @@ export const timekeepingToday = async () => {
   } catch (error) {
     logger("Get timekeeping today failed");
     if ((error as Response).status === 401) {
-      alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại");
       useAuthStore.getState().clearAuth();
     }
   }
@@ -96,6 +95,11 @@ const safeTimekeeping = async () => {
     await createFetchRequest("/user/timekeeping", "POST");
     await timekeepingToday();
   } catch (error) {
+    if ((error as Response).status === 401) {
+      retryTimekeeping = 0;
+      return;
+    }
+
     if (retryTimekeeping < 3) {
       retryTimekeeping++;
       logger("Timekeeping failed, retrying...");

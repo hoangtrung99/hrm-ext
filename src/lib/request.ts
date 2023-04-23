@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import { getStorage, STORAGE_KEYS } from "./storage";
 import { useAuthStore } from "./store";
 import { Auth } from "./types";
+import { getToken } from "./utils";
 
 const baseURL = "https://api-hrm.solashi.com/api/1.0";
 
@@ -32,7 +33,6 @@ axios.interceptors.response.use(
     // Handle toast message
     if (error.response?.status === 401) {
       useAuthStore.getState().clearAuth();
-      alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại");
       toast.error("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại");
     }
 
@@ -40,16 +40,19 @@ axios.interceptors.response.use(
   }
 );
 
-export const createFetchRequest = (
+export const createFetchRequest = async (
   url: string,
   method: "POST" | "GET" | "PUT",
   body?: Record<string, unknown>
 ) => {
+  const authState = await getToken();
+  const token = authState?.access_token;
+
   return fetch(`${baseURL}${url}`, {
     method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + useAuthStore.getState().access_token,
+      Authorization: "Bearer " + token,
     },
     body: body ? JSON.stringify(body) : undefined,
   });
