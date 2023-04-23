@@ -41,38 +41,47 @@ const Login: React.FC = () => {
     },
   });
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutate();
+  };
+
   return (
     <div className="w-full h-full relative">
       <div className="prose lg:prose-xl pt-10 px-3 flex flex-col">
         <h1 className="prose-headings:h1">HRM</h1>
 
-        <label htmlFor="email" className="label label-text py-1">
-          Email
-        </label>
-        <input
-          name="email"
-          type="text"
-          onChange={handleChange}
-          placeholder="trungnh@solashi.com"
-          className="input input-bordered w-full mb-4 text-white"
-        />
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email" className="label label-text py-1">
+            Email
+          </label>
+          <input
+            name="email"
+            type="text"
+            onChange={handleChange}
+            placeholder="trungnh@solashi.com"
+            className="input input-bordered w-full mb-4 text-white"
+          />
 
-        <label htmlFor="email" className="label label-text py-1">
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          onChange={handleChange}
-          className="input input-bordered w-full text-white"
-        />
+          <label htmlFor="email" className="label label-text py-1">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            onChange={handleChange}
+            className="input input-bordered w-full text-white"
+          />
 
-        <button
-          onClick={mutate as () => void}
-          className={`btn btn-primary mt-6 ${isLoading ? "btn-disabled" : ""}`}
-        >
-          Đăng nhập
-        </button>
+          <button
+            type="submit"
+            className={`btn btn-primary mt-6 ${
+              isLoading ? "btn-disabled" : ""
+            }`}
+          >
+            Đăng nhập
+          </button>
+        </form>
 
         <h4>Make HRM great again!</h4>
       </div>
