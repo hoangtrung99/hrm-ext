@@ -50,6 +50,12 @@ export const timeKeeping = async (needCheckAuto = true) => {
 
 // Xử lý sự kiện khi tác vụ lập lịch được kích hoạt
 chrome.alarms.onAlarm.addListener(async function (alarm) {
+  // check nếu là thứ 7 hoặc chủ nhật thì không thực hiện
+  const today = new Date().getDay();
+  if (today === 0 || today === 6) {
+    return;
+  }
+
   if (alarm.name === "morningAlarm") {
     // Thực hiện các hoạt động vào 8 giờ sáng
     logger("morningAlarm");
