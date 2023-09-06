@@ -1,11 +1,11 @@
 import { ClassValue, clsx } from "clsx";
-import { addDays, compareAsc } from "date-fns";
+import { addDays, compareAsc, differenceInHours } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { getStorage, STORAGE_KEYS } from "..";
 import logger from "../logger";
 import { createFetchRequest } from "../request";
 import { useAuthStore } from "../store";
-import { Auth } from "../types";
+import { Auth, TimekeepingData } from "../types";
 import { addDaysFromSeconds } from "./date";
 
 export function cn(...inputs: ClassValue[]) {
@@ -56,4 +56,13 @@ export const refreshTokenIfNeed = async () => {
   if (compareAsc(addDays(new Date(), 2), new Date(expiredAt)) === 1) {
     handleRefreshToken();
   }
+};
+
+export const getTimekeepingOfMonth = (arr: TimekeepingData[]): number[] => {
+  return arr.map((item) => {
+    const startTime = item.start_time;
+    const endTime = item.end_time;
+
+    return differenceInHours(new Date(endTime), new Date(startTime));
+  });
 };
