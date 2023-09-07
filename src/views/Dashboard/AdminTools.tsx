@@ -27,7 +27,10 @@ const AdminTools: React.FC = () => {
   const copyTimeKeeping = () => {
     if (!data) return;
     console.log(data);
-    console.log(1111, getTimekeepingOfMonth(data.data.data));
+    const timekeeping = getTimekeepingOfMonth(data.data.data);
+    console.log(1111, timekeeping);
+    navigator.clipboard.writeText(JSON.stringify(timekeeping));
+    toast.success("Copy thành công!");
   };
 
   return (

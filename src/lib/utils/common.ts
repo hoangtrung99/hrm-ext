@@ -1,11 +1,15 @@
 import { ClassValue, clsx } from "clsx";
-import { addDays, compareAsc, differenceInHours } from "date-fns";
+import { addDays, compareAsc } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { getStorage, STORAGE_KEYS } from "..";
 import logger from "../logger";
 import { createFetchRequest } from "../request";
 import { useAuthStore } from "../store";
-import { Auth, TimekeepingData } from "../types";
+import {
+  Auth,
+  OvertimeSalaryCoefficientsType,
+  TimekeepingData,
+} from "../types";
 import { addDaysFromSeconds } from "./date";
 
 export function cn(...inputs: ClassValue[]) {
@@ -60,9 +64,18 @@ export const refreshTokenIfNeed = async () => {
 
 export const getTimekeepingOfMonth = (arr: TimekeepingData[]): number[] => {
   return arr.map((item) => {
-    const startTime = item.start_time;
-    const endTime = item.end_time;
+    const totalMinute =
+      Number(item.total_time_work ?? 0) +
+      Number(
+        item.overtime?.overtime_salary_coefficients
+          ? item.overtime?.overtime_salary_coefficients.reduce(
+              (total: number, item: OvertimeSalaryCoefficientsType) =>
+                total + item.total_time_work,
+              0
+            )
+          : 0
+      );
 
-    return differenceInHours(new Date(endTime), new Date(startTime));
+    return Number((totalMinute / 60).toFixed(2));
   });
 };
