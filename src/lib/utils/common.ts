@@ -10,7 +10,7 @@ import {
   OvertimeSalaryCoefficientsType,
   TimekeepingData,
 } from "../types";
-import { addDaysFromSeconds } from "./date";
+import { addDaysFromSeconds, generateDateOfMonth } from "./date";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -63,7 +63,12 @@ export const refreshTokenIfNeed = async () => {
 };
 
 export const getTimekeepingOfMonth = (arr: TimekeepingData[]): number[] => {
-  return arr.map((item) => {
+  const dateOfMonth = generateDateOfMonth();
+
+  return dateOfMonth.map((date) => {
+    const item = arr.find((item) => item.date === date);
+    if (!item) return 0;
+
     const totalMinute =
       Number(item.total_time_work ?? 0) +
       Number(
@@ -76,6 +81,27 @@ export const getTimekeepingOfMonth = (arr: TimekeepingData[]): number[] => {
           : 0
       );
 
-    return Number((totalMinute / 60).toFixed(2));
+    return Number((totalMinute / 60).toFixed(1));
   });
 };
+
+export function searchElementInIframes(
+  documentContext: typeof document,
+  elementId: string
+): HTMLElement | null {
+  const element = documentContext.getElementById(elementId) as HTMLElement;
+  if (element) {
+    return element;
+  }
+
+  const iframes = documentContext.querySelectorAll("iframe");
+  for (const iframe of iframes) {
+    const doc = iframe.contentDocument as Document;
+    const result = searchElementInIframes(doc, elementId);
+    if (result) {
+      return result;
+    }
+  }
+
+  return null;
+}

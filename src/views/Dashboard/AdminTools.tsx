@@ -29,8 +29,30 @@ const AdminTools: React.FC = () => {
     console.log(data);
     const timekeeping = getTimekeepingOfMonth(data.data.data);
     console.log(1111, timekeeping);
-    navigator.clipboard.writeText(JSON.stringify(timekeeping));
-    toast.success("Copy thành công!");
+
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      let currentTab = tabs[0]; // tab đang mở hiện tại
+      chrome.tabs.sendMessage(
+        currentTab.id,
+        { action: "getTimeSheetElements" },
+        function (response) {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError);
+            return;
+          }
+          console.log(response);
+          // Xử lý dữ liệu nhận được từ content script ở đây
+          const { sheetNameEl, timeSheetEl, executeEl } = response;
+          sheetNameEl.value = "TrungNH";
+          timeSheetEl.value = JSON.stringify(timekeeping);
+
+          executeEl.click();
+        }
+      );
+    });
+
+    // navigator.clipboard.writeText(JSON.stringify(timekeeping));
+    // toast.success("Copy thành công!");
   };
 
   return (
