@@ -28,6 +28,8 @@ const manifest: Manifest.WebExtensionManifest = {
       matches: ["http://*/*", "https://*/*", "<all_urls>"],
       js: ["src/pages/content/index.js"],
       css: ["contentStyle.css"],
+      all_frames: true,
+      run_at: "document_end",
     },
   ],
   web_accessible_resources: [
@@ -36,7 +38,15 @@ const manifest: Manifest.WebExtensionManifest = {
       matches: [],
     },
   ],
-  permissions: ["storage", "alarms", "tabs"],
+  permissions: [
+    "storage",
+    "alarms",
+    "tabs",
+    "activeTab",
+    "https://docs.google.com/",
+    "webRequest",
+    "<all_urls>",
+  ],
   host_permissions: ["https://api-hrm.solashi.com/"],
 };
 

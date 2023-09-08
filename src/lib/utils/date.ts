@@ -23,8 +23,8 @@ export const endMonth = format(endOfMonth(new Date()), "yyyy/MM/dd");
 
 // generate all date of current month by format yyyy/MM/dd
 export const generateDateOfMonth = () => {
-  const start = startOfMonth(new Date("2023-08-01"));
-  const end = endOfMonth(new Date("2023-08-31"));
+  const start = startOfMonth(new Date());
+  const end = endOfMonth(new Date());
   const arr = [];
   for (let dt = new Date(start); dt <= end; dt.setDate(dt.getDate() + 1)) {
     arr.push(format(dt, "yyyy-MM-dd"));

@@ -88,6 +88,8 @@ export { Timekeeping };
 function TimekeepingState() {
   const state = useTimekeepingStore();
 
+  const isLoading = !state.first && !state.last;
+
   useEffect(() => {
     // handler event from service worker
     const handleMessage = (message: {
@@ -117,7 +119,9 @@ function TimekeepingState() {
     );
   }
 
-  return (
+  return isLoading ? (
+    <span className="loading loading-infinity loading-xs"></span>
+  ) : (
     <div>
       <h4 className="mt-4 mb-0 prose-headings:h5">Hôm nay bạn đã chấm công</h4>
       <div className="flex flex-col">
