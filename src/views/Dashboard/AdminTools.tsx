@@ -29,6 +29,7 @@ const AdminTools: React.FC = () => {
     console.log(data);
     const timekeeping = getTimekeepingOfMonth(data.data.data);
     console.log(1111, timekeeping);
+    navigator.clipboard.writeText(JSON.stringify(timekeeping));
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       let currentTab = tabs[0]; // tab đang mở hiện tại
@@ -51,7 +52,7 @@ const AdminTools: React.FC = () => {
       );
     });
 
-    // navigator.clipboard.writeText(JSON.stringify(timekeeping));
+    navigator.clipboard.writeText(JSON.stringify(timekeeping));
     // toast.success("Copy thành công!");
   };
 

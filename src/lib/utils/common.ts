@@ -62,12 +62,14 @@ export const refreshTokenIfNeed = async () => {
   }
 };
 
-export const getTimekeepingOfMonth = (arr: TimekeepingData[]): number[] => {
+export const getTimekeepingOfMonth = (
+  arr: TimekeepingData[]
+): Array<number | string> => {
   const dateOfMonth = generateDateOfMonth();
 
   return dateOfMonth.map((date) => {
     const item = arr.find((item) => item.date === date);
-    if (!item) return 0;
+    if (!item) return "";
 
     const totalMinute =
       Number(item.total_time_work ?? 0) +
