@@ -1,5 +1,5 @@
 import { ClassValue, clsx } from "clsx";
-import { addDays, compareAsc } from "date-fns";
+import { addHours, compareAsc } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { getStorage, STORAGE_KEYS } from "..";
 import logger from "../logger";
@@ -57,7 +57,7 @@ export const refreshTokenIfNeed = async () => {
 
   console.log("token expiredAt", expiredAt);
 
-  if (compareAsc(addDays(new Date(), 2), new Date(expiredAt)) === 1) {
+  if (compareAsc(addHours(new Date(), 2), new Date(expiredAt)) === 1) {
     handleRefreshToken();
   }
 };
