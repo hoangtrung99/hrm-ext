@@ -1,5 +1,5 @@
 import { Footer } from "@/components/Footer";
-import { addDaysFromSeconds } from "@/lib/utils";
+import { addHoursFromSeconds } from "@/lib/utils";
 import { axios } from "@src/lib/request";
 import { useAuthStore } from "@src/lib/store";
 import { Auth } from "@src/lib/types";
@@ -32,7 +32,7 @@ const Login: React.FC = () => {
   const { mutate, isLoading } = useMutation<Auth>(submit, {
     onSuccess(data) {
       // setStorage(STORAGE_KEYS.AUTH_USER, data);
-      const expires_at = addDaysFromSeconds(new Date(), data.expires_in);
+      const expires_at = addHoursFromSeconds(new Date(), data.expires_in);
       useAuthStore.setState({ ...data, expires_at });
       toast.success("Đăng nhập thành công!");
     },

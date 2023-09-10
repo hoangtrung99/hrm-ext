@@ -18,6 +18,10 @@ export const addDaysFromSeconds = (date: Date, seconds: number) => {
   return format(addDays(date, seconds / (24 * 60 * 60)), "yyyy-MM-dd HH:mm:ss");
 };
 
+export const addHoursFromSeconds = (date: Date, seconds: number) => {
+  return format(addHours(date, seconds / (60 * 60)), "yyyy-MM-dd HH:mm:ss");
+};
+
 export const startMonth = format(startOfMonth(new Date()), "yyyy/MM/dd");
 export const endMonth = format(endOfMonth(new Date()), "yyyy/MM/dd");
 
