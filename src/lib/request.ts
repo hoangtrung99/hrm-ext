@@ -5,7 +5,7 @@ import { useAuthStore } from "./store";
 import { Auth } from "./types";
 import { getToken } from "./utils";
 
-const baseURL = "https://api-hrm.solashi.com/api/1.0";
+const baseURL = "https://api.biwi.vn/api/1.0";
 
 async function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const authUserJSON = await getStorage<string>(STORAGE_KEYS.AUTH_USER);
