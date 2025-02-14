@@ -1,7 +1,7 @@
 {
   "name": "hrm-ext",
   "displayName": "HRM Solashi",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Make HRM great again!",
   "license": "MIT",
   "repository": {
