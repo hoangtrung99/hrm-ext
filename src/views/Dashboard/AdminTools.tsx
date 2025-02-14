@@ -1,18 +1,8 @@
-import { timekeepingByMonth } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
-import { getTimekeepingOfMonth } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 const AdminTools: React.FC = () => {
   const { access_token, refresh_token } = useAuthStore();
-  const [dataHandling, setDataHanding] = useState(false);
-
-  const { data, isLoading } = useQuery(
-    ["timekeeping-month"],
-    timekeepingByMonth
-  );
 
   const copyAccessToken = () => {
     navigator.clipboard.writeText(access_token || "");
@@ -24,27 +14,22 @@ const AdminTools: React.FC = () => {
     toast.success("Copy thành công!");
   };
 
-  const copyTimeKeeping = () => {
-    if (!data) return;
-    const timekeeping = getTimekeepingOfMonth(data.data.data);
-    navigator.clipboard.writeText(JSON.stringify(timekeeping));
-    toast.success("Copy thành công!");
-  };
-
   return (
     <div>
       <h2>Tools</h2>
 
       <div className="indicator">
-        <span className="indicator-item badge badge-secondary">New</span>
+        <span className="indicator-item badge badge-secondary">
+          Coming soon
+        </span>
         <button
-          className="btn btn-primary btn-sm mb-2 w-[250px]"
-          onClick={copyTimeKeeping}
+          className="btn btn-primary btn-sm mb-2 w-[250px] btn-disabled"
+          disabled
         >
-          {(isLoading || dataHandling) && (
+          {/* {(isLoading || dataHandling) && (
             <span className="loading loading-infinity loading-xs"></span>
-          )}
-          Copy timekeeping
+          )} */}
+          Đăng nhập nhiều tài khoản
         </button>
       </div>
 
