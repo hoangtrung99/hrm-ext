@@ -1,6 +1,7 @@
 import { timekeeping } from "@/lib/api";
 import { useTimekeepingStore } from "@/lib/store";
 import { UTCtoGTM7 } from "@/lib/utils";
+import { encryptData } from "@/lib/utils/hash";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -27,7 +28,25 @@ const Timekeeping: React.FC = () => {
     },
   });
 
-  const debounceMutate = useMemo(() => debounce(mutate, 200), [mutate]);
+  const debounceMutate = useMemo(
+    () =>
+      debounce(async () => {
+        const ip_v4 =
+          queryClient.getQueryData(["current-ip"]) ||
+          import.meta.env.VITE_FALLBACK_SOLASHI_IP;
+
+        const value = {
+          ip_v4: ip_v4,
+          date_time: format(new Date(), "yyyy/MM/dd HH:mm:ss"),
+          type: null,
+        };
+
+        const hash = await encryptData(value);
+
+        mutate({ hash, ...value });
+      }, 200),
+    [mutate]
+  );
 
   return (
     <div>
