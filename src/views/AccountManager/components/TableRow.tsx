@@ -53,7 +53,7 @@ export function TableRow({ account }: TableRowProps) {
       <td>
         <input
           type="checkbox"
-          className="checkbox"
+          className="checkbox checkbox-sm"
           checked={selectedAccounts.includes(account.id)}
           onChange={() => toggleSelectAccount(account.id)}
         />
