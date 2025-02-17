@@ -18,21 +18,6 @@ const AdminTools: React.FC = () => {
     <div>
       <h2>Tools</h2>
 
-      <div className="indicator">
-        <span className="indicator-item badge badge-secondary">
-          Coming soon
-        </span>
-        <button
-          className="btn btn-primary btn-sm mb-2 w-[250px] btn-disabled"
-          disabled
-        >
-          {/* {(isLoading || dataHandling) && (
-            <span className="loading loading-infinity loading-xs"></span>
-          )} */}
-          Đăng nhập nhiều tài khoản
-        </button>
-      </div>
-
       <button
         className="btn btn-outline btn-primary btn-sm mb-2 w-[250px]"
         onClick={copyAccessToken}

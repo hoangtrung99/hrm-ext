@@ -4,7 +4,8 @@ import logger from "./logger";
 export const STORAGE_KEYS = {
   AUTH_USER: "auth-user",
   TIMEKEEPING: "timekeeping",
-};
+  MANAGED_ACCOUNTS: "managed-accounts",
+} as const;
 
 export const getStorage = async <T = string>(
   key: string
