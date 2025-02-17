@@ -4,6 +4,11 @@ import { toast } from "react-hot-toast";
 import { useTableStore } from "../store/table-store";
 import { useCheckIn } from "./useCheckIn";
 
+type CheckInResult = {
+  success: boolean;
+  email: string;
+};
+
 export const useBulkCheckIn = () => {
   const [isCheckingIn, setIsCheckingIn] = useState(false);
   const { accounts } = useManagedAccountsStore();
@@ -20,17 +25,35 @@ export const useBulkCheckIn = () => {
         : accounts;
 
     try {
-      const results = await Promise.all(
-        accountsToCheckIn.map((account) => checkInForAccount(account))
+      const results: CheckInResult[] = await Promise.all(
+        accountsToCheckIn.map(async (account) => {
+          const success = await checkInForAccount(account);
+          return {
+            success,
+            email: account.user.email,
+          };
+        })
       );
-      const successCount = results.filter(Boolean).length;
-      const failCount = results.length - successCount;
 
-      if (successCount > 0) {
-        toast.success(`Đã chấm công thành công cho ${successCount} tài khoản`);
+      const successResults = results.filter((r) => r.success);
+      const failResults = results.filter((r) => !r.success);
+
+      if (successResults.length > 0) {
+        const message = [
+          `Chấm công thành công cho ${successResults.length} tài khoản:`,
+          "",
+          ...successResults.map((r) => r.email),
+        ].join("\n");
+        toast.success(message, { duration: 5000 });
       }
-      if (failCount > 0) {
-        toast.error(`Chấm công thất bại cho ${failCount} tài khoản`);
+
+      if (failResults.length > 0) {
+        const message = [
+          `Chấm công thất bại cho ${failResults.length} tài khoản:`,
+          "",
+          ...failResults.map((r) => r.email),
+        ].join("\n");
+        toast.error(message, { duration: 5000 });
       }
     } catch (error) {
       console.error("Check in failed:", error);

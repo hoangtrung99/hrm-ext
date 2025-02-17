@@ -19,7 +19,7 @@ export function AccountManager() {
           <Button
             onClick={handleBulkCheckIn}
             disabled={isCheckingIn}
-            className="btn-primary"
+            className="btn-secondary"
             size="sm"
           >
             {isCheckingIn

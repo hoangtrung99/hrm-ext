@@ -5,7 +5,6 @@ import {
 import { encryptData } from "@/lib/utils/hash";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { toast } from "react-hot-toast";
 import { createAccountInstance } from "../axios-instance";
 
 export const useCheckIn = () => {
@@ -68,10 +67,10 @@ export const useCheckIn = () => {
         value,
         account,
       });
-      toast.success(`Chấm công thành công cho ${account.user.email}!`);
+      //   toast.success(`Chấm công thành công cho ${account.user.email}!`);
       return true;
     } catch (error) {
-      toast.error(`Chấm công thất bại cho ${account.user.email}!`);
+      //   toast.error(`Chấm công thất bại cho ${account.user.email}!`);
       console.error(
         `Failed to check in for account ${account.user.email}:`,
         error
