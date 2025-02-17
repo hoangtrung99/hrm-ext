@@ -8,7 +8,7 @@ import { format } from "date-fns";
 import { createAccountInstance } from "../axios-instance";
 
 export const useCheckIn = () => {
-  const { setActiveAccount, updateAccount } = useManagedAccountsStore();
+  const { setActiveAccount } = useManagedAccountsStore();
   const queryClient = useQueryClient();
 
   const { mutate: checkInMutate } = useMutation(
@@ -35,17 +35,7 @@ export const useCheckIn = () => {
     },
     {
       onSuccess(data, { account }) {
-        queryClient.invalidateQueries(["timekeeping-today"]);
-        // Lấy dữ liệu timekeeping mới sau khi check in
-        const axiosInstance = createAccountInstance(
-          account.access_token,
-          account.refresh_token
-        );
-        axiosInstance.get("/user/timekeeping/today").then((response) => {
-          updateAccount(account.id, {
-            timekeeping: response.data,
-          });
-        });
+        queryClient.invalidateQueries(["timekeeping-today", account.id]);
       },
     }
   );
