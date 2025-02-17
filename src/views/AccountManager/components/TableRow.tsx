@@ -58,7 +58,7 @@ export function TableRow({ account }: TableRowProps) {
           onChange={() => toggleSelectAccount(account.id)}
         />
       </td>
-      <td className="truncate max-w-[350px] whitespace-nowrap">
+      <td className="font-bold text-white truncate max-w-[350px] whitespace-nowrap">
         {account.user.employee.personal_information.full_name}
       </td>
       <td className="font-bold text-secondary whitespace-nowrap">

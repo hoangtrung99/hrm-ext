@@ -43,6 +43,7 @@ export function AddAccountForm({ onClose }: AddAccountFormProps) {
             <div>
               <label className="label">Email</label>
               <input
+                autoFocus
                 type="email"
                 className="input input-bordered w-full"
                 value={email}

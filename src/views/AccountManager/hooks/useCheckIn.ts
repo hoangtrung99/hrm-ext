@@ -26,14 +26,27 @@ export const useCheckIn = () => {
         account.access_token,
         account.refresh_token
       );
-
-      return axiosInstance.post("/user/timekeeping?hash=" + hash, {
-        ...value,
-      });
+      const response = await axiosInstance.post(
+        "/user/timekeeping?hash=" + hash,
+        {
+          ...value,
+        }
+      );
+      return response.data;
     },
     {
-      onSuccess() {
+      onSuccess(data, { account }) {
         queryClient.invalidateQueries(["timekeeping-today"]);
+        // Lấy dữ liệu timekeeping mới sau khi check in
+        const axiosInstance = createAccountInstance(
+          account.access_token,
+          account.refresh_token
+        );
+        axiosInstance.get("/user/timekeeping/today").then((response) => {
+          updateAccount(account.id, {
+            timekeeping: response.data,
+          });
+        });
       },
     }
   );
@@ -54,9 +67,6 @@ export const useCheckIn = () => {
         hash,
         value,
         account,
-      });
-      updateAccount(account.id, {
-        lastCheckin: format(new Date(), "HH:mm:ss"),
       });
       toast.success(`Chấm công thành công cho ${account.user.email}!`);
       return true;
