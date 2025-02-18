@@ -44,7 +44,7 @@ export const useBulkCheckIn = () => {
           "",
           ...successResults.map((r) => r.email),
         ].join("\n");
-        toast.success(message, { duration: 5000 });
+        toast.success(message, { duration: 2500 });
       }
 
       if (failResults.length > 0) {
@@ -53,7 +53,7 @@ export const useBulkCheckIn = () => {
           "",
           ...failResults.map((r) => r.email),
         ].join("\n");
-        toast.error(message, { duration: 5000 });
+        toast.error(message, { duration: 2500 });
       }
     } catch (error) {
       console.error("Check in failed:", error);

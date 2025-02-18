@@ -50,6 +50,7 @@ export const useManagedAccountsStore = create<ManagedAccountsStore>()(
           const accounts = get().accounts.map((acc) =>
             acc.id === id ? { ...acc, ...data } : acc
           );
+
           set({ accounts });
         },
         clearAccounts() {
