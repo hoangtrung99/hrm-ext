@@ -1,11 +1,13 @@
 const secretKey = import.meta.env.VITE_TIMEKEEPING_KEY as string;
 
 const encryptData = async (data: object) => {
-  const iv = window.crypto.getRandomValues(new Uint8Array(16));
+  const cryptoApi = typeof crypto !== "undefined" ? crypto : window.crypto;
+
+  const iv = cryptoApi.getRandomValues(new Uint8Array(16));
   const key = new TextEncoder().encode(secretKey);
   const encodedData = new TextEncoder().encode(JSON.stringify(data));
 
-  const importedKey = await window.crypto.subtle.importKey(
+  const importedKey = await cryptoApi.subtle.importKey(
     "raw",
     key,
     "AES-CBC",
@@ -13,7 +15,7 @@ const encryptData = async (data: object) => {
     ["encrypt"]
   );
 
-  const encrypted = await window.crypto.subtle.encrypt(
+  const encrypted = await cryptoApi.subtle.encrypt(
     { name: "AES-CBC", iv },
     importedKey,
     encodedData
