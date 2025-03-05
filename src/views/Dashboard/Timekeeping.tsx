@@ -70,7 +70,7 @@ const Timekeeping: React.FC = () => {
   useEffect(() => {
     // Tính toán thời gian còn lại cho đến 8:58 AM và 3:30 PM
     const timeUntilNext8_58AM = getTimeUntilNextExecution(8, 58);
-    const timeUntilNext3_30PM = getTimeUntilNextExecution(15, 25);
+    const timeUntilNext3_30PM = getTimeUntilNextExecution(18, 0);
 
     // Chạy tác vụ vào đúng 8:58 AM
     const timeoutId1 = setTimeout(() => {
