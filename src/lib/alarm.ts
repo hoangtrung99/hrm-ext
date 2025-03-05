@@ -1,7 +1,9 @@
+import { format } from "date-fns";
 import logger from "./logger";
 import { createFetchRequest } from "./request";
 import { getStorage, STORAGE_KEYS } from "./storage";
 import { useAuthStore, useTimekeepingStore } from "./store";
+import { encryptData } from "./utils/hash";
 
 // Tạo tác vụ lập lịch chạy vào 8h58 giờ sáng hàng ngày
 chrome.alarms.create("morningAlarm", {
@@ -98,7 +100,16 @@ export const timekeepingToday = async () => {
 
 const safeTimekeeping = async () => {
   try {
-    await createFetchRequest("/user/timekeeping", "POST");
+    const ip_v4 = import.meta.env.VITE_FALLBACK_SOLASHI_IP;
+    const value = {
+      ip_v4: ip_v4,
+      date_time: format(new Date(), "yyyy/MM/dd HH:mm:ss"),
+      type: null,
+    };
+
+    const hash = await encryptData(value);
+
+    await createFetchRequest("/user/timekeeping?hash=" + hash, "POST", value);
     await timekeepingToday();
   } catch (error) {
     if ((error as Response).status === 401) {

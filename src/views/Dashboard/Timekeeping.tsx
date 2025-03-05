@@ -48,59 +48,6 @@ const Timekeeping: React.FC = () => {
     [mutate]
   );
 
-  // Hàm tính toán thời gian còn lại cho đến giờ mục tiêu
-  const getTimeUntilNextExecution = (
-    targetHour: number,
-    targetMinute: number
-  ) => {
-    const now = new Date();
-    const targetTime = new Date();
-    targetTime.setHours(targetHour, targetMinute, 0, 0); // Đặt thời gian mục tiêu (giờ và phút)
-
-    // Nếu thời gian hiện tại đã qua thời gian mục tiêu, đặt thời gian mục tiêu cho ngày hôm sau
-    if (now > targetTime) {
-      targetTime.setDate(now.getDate() + 1);
-    }
-
-    // Tính toán thời gian còn lại (miliseconds)
-    const timeUntilTarget = targetTime.getTime() - now.getTime();
-    return timeUntilTarget;
-  };
-
-  useEffect(() => {
-    // Tính toán thời gian còn lại cho đến 8:58 AM và 3:30 PM
-    const timeUntilNext8_58AM = getTimeUntilNextExecution(8, 58);
-    const timeUntilNext3_30PM = getTimeUntilNextExecution(18, 0);
-
-    // Chạy tác vụ vào đúng 8:58 AM
-    const timeoutId1 = setTimeout(() => {
-      debounceMutate();
-      console.log("Task executed at 8:58 AM!");
-      // Sau khi tác vụ chạy, tiếp tục lặp lại mỗi ngày vào 8:58 AM
-      setInterval(() => {
-        debounceMutate();
-        console.log("Task executed at 8:58 AM!");
-      }, 24 * 60 * 60 * 1000); // 24 giờ sau, tiếp tục chạy lại
-    }, timeUntilNext8_58AM);
-
-    // Chạy tác vụ vào đúng 3:30 PM
-    const timeoutId2 = setTimeout(() => {
-      debounceMutate();
-      console.log("Task executed at 3:30 PM!");
-      // Sau khi tác vụ chạy, tiếp tục lặp lại mỗi ngày vào 3:30 PM
-      setInterval(() => {
-        debounceMutate();
-        console.log("Task executed at 3:30 PM!");
-      }, 24 * 60 * 60 * 1000); // 24 giờ sau, tiếp tục chạy lại
-    }, timeUntilNext3_30PM);
-
-    // Cleanup: Xóa các timeout nếu component unmount
-    return () => {
-      clearTimeout(timeoutId1);
-      clearTimeout(timeoutId2);
-    };
-  }, []); // Chạy một lần khi component mount
-
   return (
     <div>
       <div className="form-control flex flex-row justify-start items-center">
